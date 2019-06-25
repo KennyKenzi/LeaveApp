@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 
 const User = mongoose.model('User', {
@@ -20,7 +19,7 @@ const User = mongoose.model('User', {
             minlength: 6
         },
         staffID:{
-            type: Number,
+            type: String,
             unique: true,
             required: true
         },
