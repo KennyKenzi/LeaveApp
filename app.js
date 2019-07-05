@@ -37,6 +37,10 @@ app.use(session({
   saveUninitialized: true,
 
 }));
+
+
+
+
 app.use(flash());
 
 app.use(function(req, res, next) {
@@ -51,7 +55,7 @@ app.use(function(req, res, next) {
 
 /*   using routers */
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', usersRouter);
 app.use('/', authRouter);
 
 
@@ -69,7 +73,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
 
 
   // render the error page
