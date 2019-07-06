@@ -38,10 +38,10 @@ router.get('/users', async function(req, res, next) {
          const decoded = jwt.verify(token, 'thisismynewcourse')
          const user = await User.findOne({_id: decoded._id, 'tokens.token': token})
 
-         const allleaves= await Leave.find({staffID: user.staffID})
+         const allLeaves= await Leave.find({staffID: user.staffID})
 
          //using custom function above
-        const sort = sortdata(allleaves)
+        const sort = sortdata(allLeaves)
  
     res.render('auth/userpage', {
         firstName: user.firstName,
@@ -49,7 +49,8 @@ router.get('/users', async function(req, res, next) {
         leavedata: leavedata,
         annual: leavedata.annual - sort.annual,
         casual: leavedata.casual- sort.casual,
-        maternity: leavedata.maternity - sort.maternity
+        maternity: leavedata.maternity - sort.maternity,
+        allLeaves: allLeaves
     })
    // console.log('counts=>',sort)
      

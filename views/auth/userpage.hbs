@@ -2,61 +2,11 @@
         This is {{firstName}} {{lastName}}'s page
         {{!-- Authentication token is:  {{token}} --}}
     </h1>
-    <div style="float: right" class="wrapper">
-       <h5>LEAVE HISTORY</h5>
-       <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Leave Type</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">Duration(days)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Annual</td>
-                <td>5/07/2019</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Test</td>
-                <td>Test</td>
-                <td>Test</td>
-            </tr>
-        </tbody>
-       </table>
-    </div>
 
+    <div class="row">
 
-            {{#if error_msg}}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{error_msg}}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {{/if}}
-            {{#if success_msg}}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{success_msg}}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {{/if}}
-
-
-    <div class="wrapper">
-        <h5>LEAVE SELECTION</h5>
+        <div class="col-6">
+            <h5>LEAVE SELECTION</h5>
             <form method="POST" action="/users" >
                 <div class="form-row align-items-center">
                     <div class="col-auto my-1">
@@ -75,13 +25,44 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
-                </form>
+            </form>
 
-    </div>
+            <hr>
 
+            <div class="counter">
+                <p><strong>ANNUAL LEAVE: </strong>{{annual}} days left</p>
+                <p><strong>CASUAL LEAVE: </strong>{{casual}} days left</p>
+                <p><strong>MATERNITY LEAVE: </strong>{{maternity}} days left</p>
+            </div>
+        </div>
+        
+        <div class="col-6">
+             <h5>LEAVE HISTORY</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Leave Type</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">Duration(days)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                        {{#each allLeaves}}
+                        <tr>
+                        <th scope="row">{{@index}}</th>
+                        <td>{{this.leaveType}}</td>
+                        <td>07/06/2019</td>
+                        <td>{{this.noOfDays}}</td>
+                        </tr>    
+                        {{/each}}
 
-    <div class="counter">
-        <p><strong>ANNUAL LEAVE: </strong>{{annual}} days left</p>
-        <p><strong>CASUAL LEAVE: </strong>{{casual}} days left</p>
-        <p><strong>MATERNITY LEAVE: </strong>{{maternity}} days left</p>
+                </tbody>
+            </table>
+
+            
+        </div>
+
+        
     </div>
