@@ -15,12 +15,11 @@ const leaveSchema = new mongoose.Schema({
         staffID:{
             type: String,
             required: true,
-            trim: true,
-            minlength: 6
+            trim: true
         },
     })
 
 
-const Leave = mongoose.model('User', userSchema)
+const Leave = mongoose.model('Leave', leaveSchema)
     
-    module.exports = User
+    module.exports = Leave

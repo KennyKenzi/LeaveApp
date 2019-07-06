@@ -3,7 +3,6 @@ var router = express.Router();
 var User = require('../models/user')
 const auth = require('../middleware/auth')
 
-  
 
 
 /* GET register page*/
@@ -23,7 +22,7 @@ const auth = require('../middleware/auth')
         
         req.flash('success_msg', `${user.firstName} ${user.lastName} is saved successfully` )
         res.redirect('/register')
-    }catch(e){
+      }catch(e){
         res.status(400).send(e)
     } 
   });
@@ -43,13 +42,7 @@ const auth = require('../middleware/auth')
        
       req.session.token = token
       res.redirect('/users')
-      
-      // ,{
-        // firstName: req.query.valid.firstName,
-        // lastName: req.query.valid.lastName,
-        // token:req.query.valid.token
-    
-      // })
+
     }catch(e){
       res.status(400).send(e)
   }

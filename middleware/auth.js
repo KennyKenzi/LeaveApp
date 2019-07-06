@@ -24,4 +24,11 @@ const auth = (async(req, res, next)=>{
     next()
 })
 
+
+const checkForLeaveUsed= (async(req, res)=>{
+
+    
+
+})
+
 module.exports = auth
