@@ -22,11 +22,13 @@
                 <a class="nav-link" href="/login">Login</a>
               </li>
 
+      {{#if user.isAdmin}}
               <li class="nav-item register-page" >
                  {{!-- style="visibility: hidden" --}}
                 <a class="nav-link" href="/register">Register</a>
               </li>
-
+      {{/if}}
+              
 
             </ul>
           </div>
@@ -53,6 +55,8 @@
       {{/if}}
 
       {{{body}}}
+
+
     </div>
 
 

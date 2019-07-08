@@ -4,6 +4,7 @@ var User = require('../models/user')
 var jwt = require('jsonwebtoken')
 var leavedata = require('../config/leavedata')
 var Leave = require('../models/leave')
+const auth = require('../middleware/auth')
 
        //to sort leave data by types and no of days         
         const sortdata = (lvs)=>{
@@ -31,7 +32,7 @@ var Leave = require('../models/leave')
 
 
 /* GET users listing. */
-router.get('/users', async function(req, res, next) {
+router.get('/users', auth, async function(req, res, next) {
 
 
          const token = req.session.token
@@ -44,8 +45,7 @@ router.get('/users', async function(req, res, next) {
         const sort = sortdata(allLeaves)
  
     res.render('auth/userpage', {
-        firstName: user.firstName,
-        lastName: user.lastName,
+        user: user,
         leavedata: leavedata,
         annual: leavedata.annual - sort.annual,
         casual: leavedata.casual- sort.casual,

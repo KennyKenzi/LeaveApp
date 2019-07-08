@@ -6,7 +6,7 @@ const auth = require('../middleware/auth')
 
 
 /* GET register page*/
-  router.get('/register', auth ,(req, res, next)=>{
+  router.get('/register',(req, res, next)=>{
       res.render('auth/register');
   });
   
@@ -33,7 +33,9 @@ const auth = require('../middleware/auth')
     res.render('auth/login', { title: 'Express' });
   });
 
-  router.post('/login', async (req, res)=> {
+
+  /* POST login page. */
+    router.post('/login', async (req, res)=> {
     
     try{
 
