@@ -6,7 +6,7 @@ const auth = require('../middleware/auth')
 
 
 /* GET register page*/
-  router.get('/register',(req, res, next)=>{
+  router.get('/register',auth.authadmin,(req, res, next)=>{
       res.render('auth/register');
   });
   
@@ -23,7 +23,9 @@ const auth = require('../middleware/auth')
         req.flash('success_msg', `${user.firstName} ${user.lastName} is saved successfully` )
         res.redirect('/register')
       }catch(e){
-        res.status(400).send(e)
+        req.flash('error_msg', `Something must be wrong, check your parameters Stupid!` )
+        res.status(400).redirect('/register')
+        console.log(e)
     } 
   });
 
@@ -46,7 +48,9 @@ const auth = require('../middleware/auth')
       res.redirect('/users')
 
     }catch(e){
-      res.status(400).send(e)
+
+      req.flash('error_msg', `Login unsuccessful` )
+      res.status(400).redirect('/login')
   }
     
   });

@@ -5,7 +5,7 @@
 
     <div class="row">
 
-        <div class="col-6">
+        <div class="col">
             <h5>LEAVE SELECTION</h5>
             <form method="POST" action="/users" >
                 <div class="form-row align-items-center">
@@ -34,9 +34,50 @@
                 <p><strong>CASUAL LEAVE: </strong>{{casual}} days left</p>
                 <p><strong>MATERNITY LEAVE: </strong>{{maternity}} days left</p>
             </div>
+<hr>
+        {{#if user.isAdmin}}    
+            <div class="approvelist">
+                <h5>APPROVAL LIST</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Staff ID</th>
+                                <th scope="col">Staff Name</th>
+                                <th scope="col">Leave Type</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">Duration(days)</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each allsubordinates}}
+                            <form method="POST" action="/approval">
+                            <tr>
+                                <th scope="row">{{@index}}</th>
+                                <td>{{this.sub.staffID}}</td>
+                                <td>{{this.sub.firstName}} {{this.sub.lastName}}</td>
+                                <td>{{this.leave.leaveType}}</td>
+                                <td>07/08/2019</td>
+                                <td>{{this.leave.noOfDays}}</td>
+                                <td>
+                                    <span style="display: inline-block">
+                                        <button type="Submit" name="approve">Approve</button>
+                                        <button  type="Submit" name="reject">Reject</button>
+                                    </span>
+                                </td>
+                            </tr> 
+                            </form>   
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+            </div>
+{{/if}}
+
         </div>
 
-        <div class="col-6">
+        <div class="col-5">
              <h5>LEAVE HISTORY</h5>
             <table class="table table-striped">
                 <thead>
@@ -45,6 +86,9 @@
                         <th scope="col">Leave Type</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">Duration(days)</th>
+                        {{#if user.superStaffID}}
+                        <th scope="col">Status</th>
+                         {{/if}}
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +99,12 @@
                         <td>{{this.leaveType}}</td>
                         <td>07/06/2019</td>
                         <td>{{this.noOfDays}}</td>
-                        </tr>    
+                        {{#if user.superStaffID}}
+                        <td>Pending..</td>
+                        {{/if}}
+                        </tr> 
+                        
+
                         {{/each}}
 
                 </tbody>
@@ -66,3 +115,5 @@
 
         
     </div>
+
+    <script></script>

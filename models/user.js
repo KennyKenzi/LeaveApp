@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
             required: true
         },
         superStaffID:{
-            type: Number,
+            type: String,
         },
         isAdmin:{
             type: Boolean,

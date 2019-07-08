@@ -32,7 +32,7 @@ const auth = require('../middleware/auth')
 
 
 /* GET users listing. */
-router.get('/users', auth, async function(req, res, next) {
+router.get('/users', auth.auth, async function(req, res, next) {
 
 
          const token = req.session.token
@@ -43,14 +43,36 @@ router.get('/users', auth, async function(req, res, next) {
 
          //using custom function above
         const sort = sortdata(allLeaves)
- 
-    res.render('auth/userpage', {
+        
+
+        
+        const subordinates = await User.find({superStaffID: user.staffID})
+        const allsubordinates = []
+        for (var i = 0; i<subordinates.length; i++){
+            
+            
+            const currSubLeave = await Leave.find({staffID: subordinates[i].staffID})
+                currSubLeave.forEach(element => {
+                    const obj = {
+                        sub : subordinates[i],
+                        stID : subordinates[i].staffID,
+                        leave : element
+                    }
+                    allsubordinates.push(obj)
+                });
+       }
+       
+       
+
+        res.render('auth/userpage', {
+
         user: user,
         leavedata: leavedata,
         annual: leavedata.annual - sort.annual,
         casual: leavedata.casual- sort.casual,
         maternity: leavedata.maternity - sort.maternity,
-        allLeaves: allLeaves
+        allLeaves: allLeaves,
+        allsubordinates: allsubordinates
     })
    // console.log('counts=>',sort)
      
@@ -102,5 +124,13 @@ router.post('/users', async (req, res, next)=>{
     }
    
 })
+
+
+
+// router.post('/approval', async (req, res, next)=>{
+
+// if(post)
+    
+// })
 
 module.exports = router;
