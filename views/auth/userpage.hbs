@@ -92,21 +92,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                
-                        {{#each allLeaves}}
-                        <tr>
-                        <th scope="row">{{@index}}</th>
-                        <td>{{this.leaveType}}</td>
-                        <td>07/06/2019</td>
-                        <td>{{this.noOfDays}}</td>
-                        {{#if user.superStaffID}}
-                        <td>Pending..</td>
-                        {{/if}}
-                        </tr> 
-                        
 
+                        {{#if user.superStaffID}}
+                        {{#each allLeaves}}
+                            <tr>
+                            <th scope="row">{{@index}}</th>
+                            <td>{{this.leaveType}}</td>
+                            <td>07/06/2019</td>
+                            <td>{{this.noOfDays}}</td>
+                            <td>Pending</td>
+                            </tr>                      
                         {{/each}}
 
+                        {{else}}
+                            {{#each allLeaves}}
+                            <tr>
+                            <th scope="row">{{@index}}</th>
+                            <td>{{this.leaveType}}</td>
+                            <td>07/06/2019</td>
+                            <td>{{this.noOfDays}}</td>
+                            
+                            </tr>                      
+                        {{/each}}
+                        {{/if}}
                 </tbody>
             </table>
 
