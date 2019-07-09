@@ -17,17 +17,25 @@
           
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+      {{#if user}}
 
+      {{else}}
               <li class="nav-item"> 
                 <a class="nav-link" href="/login">Login</a>
               </li>
+      {{/if}}
+
 
       {{#if user.isAdmin}}
               <li class="nav-item register-page" >
                 <a class="nav-link" href="/register">Register</a>
               </li>
       {{/if}}
-              
+      {{#if user}}
+              <li class="nav-item register-page" style="float: right" >
+                <a class="nav-link" href="/user/logout">Logout</a>
+              </li>
+      {{/if}}
 
             </ul>
           </div>

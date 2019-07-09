@@ -11,16 +11,18 @@ const auth = (async(req, res, next)=>{
         const user = await User.findOne({_id: decoded._id, 'tokens.token': token});
 
         if(!user){
-            throw new Error()
+                throw new Error()         
 
         }else{
                     console.log('This is a user')
+                    req.user = user
+                    req.token = token
                     next()
                  
         }
       
     }catch(e){
-        res.status(401).send({error: 'Auth required'})
+        res.status(401)
         res.redirect('/login')
     }
     
@@ -42,6 +44,8 @@ const authadmin = (async(req, res, next)=>{
 
         }else{     
                 console.log('User is admin')
+                req.user = user
+                req.token = token
                 next()
         }
       
@@ -54,11 +58,5 @@ const authadmin = (async(req, res, next)=>{
    
 })
 
-
-const checkForLeaveUsed= (async(req, res)=>{
-
-    
-
-})
 
 module.exports = {auth, authadmin}

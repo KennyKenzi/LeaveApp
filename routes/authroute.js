@@ -18,10 +18,16 @@ const auth = require('../middleware/auth')
         if(req.body.isAdmin){
           user.isAdmin = true
         }
-        await user.save()
-        
-        req.flash('success_msg', `${user.firstName} ${user.lastName} is saved successfully` )
-        res.redirect('/register')
+        if(req.body.password === req.body.password2){
+          await user.save()
+          req.flash('success_msg', `${user.firstName} ${user.lastName} is saved successfully` )
+          res.redirect('/register')
+        }else{
+          req.flash('error_msg', `Passwords must match` )
+          res.redirect('/register')
+        }
+
+
       }catch(e){
         req.flash('error_msg', `Something must be wrong, check your parameters Stupid!` )
         res.status(400).redirect('/register')

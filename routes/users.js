@@ -44,17 +44,17 @@ const auth = require('../middleware/auth')
 
 /* GET users listing. */
 router.get('/users', auth.auth, async function(req, res, next) {
+   
+        //  const token = req.session.token
+        //  const decoded = jwt.verify(token, 'thisismynewcourse')
+        //  const user = await User.findOne({_id: decoded._id, 'tokens.token': token})
 
-
-         const token = req.session.token
-         const decoded = jwt.verify(token, 'thisismynewcourse')
-         const user = await User.findOne({_id: decoded._id, 'tokens.token': token})
-
-         const allLeaves= await Leave.find({staffID: user.staffID})
+        const user = req.user
+        const allLeaves= await Leave.find({staffID: user.staffID})
 
          //using custom function above
         const sort = sortdata(allLeaves)
-        
+        console.log('=>',user)
 
         
         const subordinates = await User.find({superStaffID: user.staffID})
@@ -75,7 +75,7 @@ router.get('/users', auth.auth, async function(req, res, next) {
        
        console.log(allLeaves)
        
-
+      
         res.render('auth/userpage', {
 
         user: user,
@@ -87,16 +87,17 @@ router.get('/users', auth.auth, async function(req, res, next) {
         allsubordinates: allsubordinates
     })
    // console.log('counts=>',sort)
-     
+   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+
   
 });
 
 
 
-router.post('/users', async (req, res, next)=>{
+router.post('/users', auth.auth, async (req, res, next)=>{
 
 
-    const token = req.session.token
+    const token = req.token
     const decoded = jwt.verify(token, 'thisismynewcourse')
     const user = await User.findOne({_id: decoded._id, 'tokens.token': token})
     
@@ -154,11 +155,27 @@ router.post('/approval', async (req, res, next)=>{
         await Leave.findByIdAndUpdate({_id : req.body.ID},  {statusUpdated: true})
     }
 
-    const foo = await Leave.findById(req.body.ID)
-    console.log(foo)
     //console.log()
     //console.log(req.session)
     res.redirect('/users')
 })
+
+
+router.get('/user/logout', auth.auth, async (req, res, next)=>{
+console.log('here')
+    try{
+        req.user.tokens = req.user.tokens.filter((token)=>{
+            return token.token ===[]
+        })
+        await req.user.save()
+        
+    
+    }catch(e){
+        res.status(500).send(e)
+    }
+    req.flash('success_msg', `User logged out successfully` )
+    res.redirect('/')
+})
+
 
 module.exports = router;
