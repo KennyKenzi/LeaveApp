@@ -17,8 +17,12 @@ const leaveSchema = new mongoose.Schema({
             required: true,
             trim: true
         },
-        approved:{
-            type: Boolean,
+        isApproved:{
+            type: String,
+            default: 'Pending'
+        },
+        statusUpdated:{
+            type: Boolean
         }
     })
 

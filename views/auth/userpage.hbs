@@ -47,15 +47,17 @@
                                 <th scope="col">Leave Type</th>
                                 <th scope="col">Start Date</th>
                                 <th scope="col">Duration(days)</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Decision</th>
                             </tr>
                         </thead>
                         <tbody>
                             {{#each allsubordinates}}
-                            <form method="POST" action="/approval">
-                            <tr>
+                                {{#if this.leave.statusUpdated}}
+                                {{else}}
+                                <form method="POST" action="/approval">
+                                <tr>
                                 <th scope="row">{{@index}}</th>
-                                <td>{{this.sub.staffID}}</td>
+                                <td > {{this.sub.staffID}}<input type="hidden" name="ID" value="{{this.leave._id}}"></td>
                                 <td>{{this.sub.firstName}} {{this.sub.lastName}}</td>
                                 <td>{{this.leave.leaveType}}</td>
                                 <td>07/08/2019</td>
@@ -67,7 +69,8 @@
                                     </span>
                                 </td>
                             </tr> 
-                            </form>   
+                            </form>  
+                            {{/if}} 
                             {{/each}}
 
                         </tbody>
@@ -95,13 +98,15 @@
 
                         {{#if user.superStaffID}}
                         {{#each allLeaves}}
+                        
                             <tr>
                             <th scope="row">{{@index}}</th>
                             <td>{{this.leaveType}}</td>
                             <td>07/06/2019</td>
                             <td>{{this.noOfDays}}</td>
-                            <td>Pending</td>
-                            </tr>                      
+                            <td>{{this.isApproved}}</td>
+                            </tr>     
+               
                         {{/each}}
 
                         {{else}}

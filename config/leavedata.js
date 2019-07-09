@@ -4,4 +4,11 @@ const data = {
     maternity: 60
 }
 
-module.exports = data
+const status = {
+
+    approve : "Approved",
+    reject : "Rejected",
+    nothing: "Pending"
+}
+
+module.exports = {data, status}

@@ -28,6 +28,17 @@ const auth = require('../middleware/auth')
         }
 
 
+        const sortstatus =(stats)=>{
+
+            if (stats.isApproved=== true){
+                status = leavedata.status.approve
+            }else if(stats.isApproved === false){
+                status = leavedata.status.reject
+            }else{
+                status = leavedata.status.nothing
+            }
+            return status
+        }
 
 
 
@@ -62,15 +73,16 @@ router.get('/users', auth.auth, async function(req, res, next) {
                 });
        }
        
+       console.log(allLeaves)
        
 
         res.render('auth/userpage', {
 
         user: user,
-        leavedata: leavedata,
-        annual: leavedata.annual - sort.annual,
-        casual: leavedata.casual- sort.casual,
-        maternity: leavedata.maternity - sort.maternity,
+        leavedata: leavedata.data,
+        annual: leavedata.data.annual - sort.annual,
+        casual: leavedata.data.casual- sort.casual,
+        maternity: leavedata.data.maternity - sort.maternity,
         allLeaves: allLeaves,
         allsubordinates: allsubordinates
     })
@@ -94,9 +106,10 @@ router.post('/users', async (req, res, next)=>{
     const sortedLeaves = sortdata(allLeaves)
     const uidata = sortedLeaves[req.body.leaveType] //3
     // get config value 5
-    console.log ('here',req.body.noOfDays)
+    console.log ('here',uidata)
 
-    if(uidata+parseInt(req.body.noOfDays) <= leavedata[req.body.leaveType]){
+    if(uidata+parseInt(req.body.noOfDays) <= leavedata.data[req.body.leaveType]){
+
         const leave = new Leave(req.body)
         try{
             leave.staffID = user.staffID
@@ -127,10 +140,25 @@ router.post('/users', async (req, res, next)=>{
 
 
 
-// router.post('/approval', async (req, res, next)=>{
+router.post('/approval', async (req, res, next)=>{
 
-// if(post)
+
     
-// })
+    if(req.body.reject === undefined){
+
+        await Leave.findByIdAndUpdate({_id : req.body.ID},  {isApproved: "Approved"}) 
+        await Leave.findByIdAndUpdate({_id : req.body.ID},  {statusUpdated: true})
+
+    }else {
+        await Leave.findByIdAndUpdate({_id : req.body.ID},  {isApproved: "Rejected"})
+        await Leave.findByIdAndUpdate({_id : req.body.ID},  {statusUpdated: true})
+    }
+
+    const foo = await Leave.findById(req.body.ID)
+    console.log(foo)
+    //console.log()
+    //console.log(req.session)
+    res.redirect('/users')
+})
 
 module.exports = router;
