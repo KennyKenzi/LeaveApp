@@ -109,7 +109,23 @@ router.post('/users', auth.auth, async (req, res, next)=>{
     // get config value 5
     console.log ('here',uidata)
 
-    if(uidata+parseInt(req.body.noOfDays) <= leavedata.data[req.body.leaveType]){
+    
+    // req.body.noOfDays = parseInt(req.body.noOfDays)
+    
+    
+    if(req.body.leaveType === 'no select'){
+        
+        req.flash('error_msg', 'Please, Select a leave type' )
+        res.redirect('/users')
+
+    }else if(req.body.noOfDays === "" ){
+        req.flash('error_msg', 'You seem to be missing some parameters FOOL!!')
+        res.redirect('/users')
+
+    }else if(req.body.noOfDays <= 0 && req.body.noOfDays.includes('e')){
+        req.flash('error_msg', 'Not possible')
+        res.redirect('/users')
+    }else if(uidata+parseInt(req.body.noOfDays) <= leavedata.data[req.body.leaveType]){
 
         const leave = new Leave(req.body)
         try{
@@ -123,19 +139,10 @@ router.post('/users', auth.auth, async (req, res, next)=>{
             console.log(e)
         }
     
-    }else if(req.body.leaveType === 'no select'){
-        
-        req.flash('error_msg', 'Please, Select a leave type' )
-        res.redirect('/users')
-
-    }else if(req.body.noOfDays === ""){
-        req.flash('error_msg', 'You seem to be missing some parameters FOOL!!')
-        res.redirect('/users')
-
     }else{
-       req.flash('error_msg', 'READ FOOL!! not enough days left' )
-       res.redirect('/users')
-    }
+        req.flash('error_msg', 'READ FOOL!! not enough days left' )
+        res.redirect('/users')
+     }
    
 })
 
