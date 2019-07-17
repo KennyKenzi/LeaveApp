@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "debug": "SET DEBUG=meineapp:* & npm start"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "debug": "SET DEBUG=meineapp:* & npm dev"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
