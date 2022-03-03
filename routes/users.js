@@ -26,7 +26,7 @@ var moment = require('moment');
                         data.maternity += element.noOfDays
             }
         });
-        console.log(lvs)
+
         return data
 
     }
@@ -143,7 +143,7 @@ var moment = require('moment');
             allsubordinates: allsubordinates,
             allStaff: allStaff,
         })
-        // console.log('counts=>',sort)
+
         res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 
     });
@@ -231,8 +231,6 @@ var moment = require('moment');
             await Leave.findByIdAndUpdate({_id : req.body.ID},  {statusUpdated: true})
         }
 
-        //console.log()
-        //console.log(req.session)
         res.redirect('/users')
     })
 
