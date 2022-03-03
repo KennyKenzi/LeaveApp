@@ -1,13 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth') 
 
 
 
 /* GET register page*/
   router.get('/register',auth.authadmin,(req, res, next)=>{
-      res.render('auth/register');
+    console.log(req.user)
+      res.render('auth/register', {
+        user: req.user,
+      });
   });
   
 
@@ -38,6 +41,7 @@ const auth = require('../middleware/auth')
 
   /* GET login page. */
   router.get('/login', function(req, res, next) {
+    console.log(res.user)
     res.render('auth/login', { title: 'Express' });
   });
 

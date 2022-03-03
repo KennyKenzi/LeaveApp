@@ -5,24 +5,42 @@
 
     <div class="row">
 
-        <div class="col">
+        <div class="col-xl-5">
             <h5>LEAVE SELECTION</h5>
             <form method="POST" action="/users" >
-                <div class="form-row align-items-center">
-                    <div class="col-auto my-1">
+                <div class="form-row align-items-center"> 
+                    <div class="col-lg-4 my-1">
                     <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
                     <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="leaveType">
-                        <option value="no select" selected>Leave Type</option>
+                        <option value="no select" selected >Leave Type</option>
                         <option value="annual">Annual</option>
                         <option value="casual">Casual</option>
                         <option value="maternity">Maternity</option>
                     </select>
                     </div>
-                    <div class="col-auto my-1">
-                        <input type="number" name="noOfDays" class="form-control">
+
+
+{{!-- 
+Place holder for date pickers
+_________________________________________________ --}}
+
+                    <div class="col-lg-6 my-1">
+                        <div class="row">
+                            <label class="text-lg-right col-3" for="startDate">Start</label>
+                            <input type="date" placeholder="Start date" name="startDate" id="startDate" class="col-8 form-control datepicker"> 
+                        </div>
+                        <div class="row">
+                            <label class="text-lg-right col-3" for="endDate">End</label>
+                            <input type="date" placeholder="End date" name="endDate" id="endDate" class="col-8 form-control datepicker">
+                        </div>
                     </div>
-                    <div class="col-auto my-1">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    
+{{!-- 
+Place holder for date pickers
+_________________________________________________ --}}
+
+                    <div class="col-lg-2 my-1">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </form>
@@ -46,7 +64,7 @@
                                 <th scope="col">Staff Name</th>
                                 <th scope="col">Leave Type</th>
                                 <th scope="col">Start Date</th>
-                                <th scope="col">Duration(days)</th>
+                                <th scope="col">Duration (days)</th>
                                 <th scope="col">Decision</th>
                             </tr>
                         </thead>
@@ -59,13 +77,13 @@
                                 <th scope="row">{{@index}}</th>
                                 <td > {{this.sub.staffID}}<input type="hidden" name="ID" value="{{this.leave._id}}"></td>
                                 <td>{{this.sub.firstName}} {{this.sub.lastName}}</td>
-                                <td>{{this.leave.leaveType}}</td>
-                                <td>07/08/2019</td>
+                                <td class="text-capitalize">{{this.leave.leaveType}}</td>
+                                <td>{{this.leaveDate}}</td>
                                 <td>{{this.leave.noOfDays}}</td>
                                 <td>
                                     <span style="display: inline-block">
-                                        <button type="Submit" name="approve">Approve</button>
-                                        <button  type="Submit" name="reject">Reject</button>
+                                        <button type="Submit" name="approve" class="btn btn-success">Approve</button>
+                                        <button  type="Submit" name="reject" class="btn btn-warning">Reject</button>
                                     </span>
                                 </td>
                             </tr> 
@@ -80,7 +98,7 @@
 
         </div>
 
-        <div class="col-5">
+        <div class="col-xl-4">
              <h5>LEAVE HISTORY</h5>
             <table class="table table-striped">
                 <thead>
@@ -88,7 +106,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Leave Type</th>
                         <th scope="col">Start Date</th>
-                        <th scope="col">Duration(days)</th>
+                        <th scope="col">Duration (days)</th>
                         {{#if user.superStaffID}}
                         <th scope="col">Status</th>
                          {{/if}}
@@ -101,8 +119,8 @@
                         
                             <tr>
                             <th scope="row">{{@index}}</th>
-                            <td>{{this.leaveType}}</td>
-                            <td>07/06/2019</td>
+                            <td class="text-capitalize">{{this.leaveType}}</td>
+                            <td>{{this.startDateEdit}}</td>
                             <td>{{this.noOfDays}}</td>
                             <td>{{this.isApproved}}</td>
                             </tr>     
@@ -113,8 +131,8 @@
                             {{#each allLeaves}}
                             <tr>
                             <th scope="row">{{@index}}</th>
-                            <td>{{this.leaveType}}</td>
-                            <td>07/06/2019</td>
+                            <td class="text-capitalize">{{this.leaveType}}</td>
+                            <td>{{this.startDateEdit}}</td>
                             <td>{{this.noOfDays}}</td>
                             
                             </tr>                      
@@ -126,7 +144,36 @@
             
         </div>
 
-        
+    {{#if user.isAdmin}}         
+        <div class = "col-xl-3">
+            <h5>LIST OF EMPLOYEES</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Names</th>
+                        <th scope="col">Position</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        
+                        {{#each allStaff}}
+                        
+                            <tr>
+                            <td>{{this.staffID}}</td>
+                            <td>{{this.firstName}} {{this.lastName}} </td>
+                            <td>{{#if this.isAdmin}} Administrator {{else}}Regular Staff{{/if}}</td>   
+                            </tr>     
+               
+                        {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+    {{/if}}    
     </div>
 
-    <script></script>
+    <script>
+
+    </script>

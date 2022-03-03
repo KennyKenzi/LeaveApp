@@ -23,6 +23,19 @@ const leaveSchema = new mongoose.Schema({
         },
         statusUpdated:{
             type: Boolean
+        },
+        createdAt:{
+            type: Date,
+            required:true,
+            default: Date.now
+        },        
+        startDate:{
+            type: Date,
+            required:true
+        },
+        endDate:{
+            type: Date,
+            required:true
         }
     })
 
